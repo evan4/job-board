@@ -36,7 +36,3 @@ Open another tab in your terminal and run for build css & js files:
 ```
 npm run dev
 ```
-Or simply run once:
-```
-npm run build
-``` 
