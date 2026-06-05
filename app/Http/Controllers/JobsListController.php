@@ -10,13 +10,24 @@ class JobsListController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $jobs = JobsList::query();
-        $jobs->when(request('search'), function ($query) {
-            $query->where('title', 'like', '%' . request('search') . '%')
-                ->orWhere('description', 'like', '%' . request('search') . '%');
+        $search = $request->input('search');
+        $min_salary = $request->input('min_salary');
+        $max_salary = $request->input('max_salary');
+
+        $jobs->when($search, function ($query) use ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        })->when($min_salary, function ($query) use ($min_salary) {
+            $query->where('salary', '>=', $min_salary);
+        })->when($max_salary, function ($query) use ($max_salary) {
+            $query->where('salary', '<=', $max_salary);
         });
+
         return view('job.index', ['jobs' => $jobs->get()]);
     }
 
