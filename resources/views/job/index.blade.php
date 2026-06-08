@@ -17,8 +17,13 @@
                     </div>
                 </div>
                 <div>
+                    <div class="mb-1 font-semibold">Experience</div>
+                    <x-radio-group name="experience" :options="\App\Models\JobsList::$experience" />
                 </div>
-                <div></div>
+                <div>
+                    <div class="mb-1 font-semibold">Category</div>
+                    <x-radio-group name="category" :options="\App\Models\JobsList::$categories" />
+                </div>
             </div>
             <button type="submit" class="w-full">Filter</button>
         </form>
