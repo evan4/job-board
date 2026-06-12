@@ -27,8 +27,8 @@ class JobFilterRequest extends FormRequest
     {
         return [
             'search' => ['nullable','string','max:255'],
-            'min_salary' => ['nullable', 'integer:strict', 'min:0'],
-            'max_salary' => ['nullable', 'integer:strict', 'gt:min_salary'],
+            'min_salary' => ['nullable', 'string'],
+            'max_salary' => ['nullable', 'string', 'gt:min_salary'],
             'experience' => ['nullable', Rule::in(JobsList::$experience)],
         ];
     }
