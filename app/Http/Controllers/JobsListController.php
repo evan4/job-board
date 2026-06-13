@@ -15,27 +15,14 @@ class JobsListController extends Controller
     {
         $validated = $request->validated();
 
-        $search = $request->input('search');
-        $min_salary = (int) $request->input('min_salary');
-        $max_salary = (int) $request->input('max_salary');
-        $experience = $request->input('experience');
-        $category = $request->input('category');
-        $jobs = JobsList::query();
-
-        $jobs->when($search, function ($query) use ($search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
-            });
-        })->when($min_salary, function ($query) use ($min_salary) {
-            $query->where('salary', '>=', $min_salary);
-        })->when($max_salary, function ($query) use ($max_salary) {
-            $query->where('salary', '<=', $max_salary);
-        })->when($experience, function ($query) use ($experience) {
-            $query->where('experience', $experience);
-        })->when($category, function ($query) use ($category) {
-            $query->where('category', $category);
-        });
+        $filters = [
+            'search' => $request->input('search'),
+            'min_salary' => $request->input('min_salary'),
+            'max_salary' => $request->input('max_salary'),
+            'experience' => $request->input('experience'),
+            'category' => $request->input('category'),
+        ];
+        $jobs = JobsList::query()->filter($filters);
 
         return view('job.index', ['jobs' => $jobs->get()]);
     }
