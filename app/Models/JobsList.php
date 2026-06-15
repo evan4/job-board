@@ -33,10 +33,14 @@ class JobsList extends Model
         $experience = $filters['experience'] ? $filters['experience'] : null;
         $category = $filters['category'] ? $filters['category'] : null;
 
+
         return $query->when($search, function ($query, $search) {
             $query->where(function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhereHas('employer', function ($query) use ($search) {
+                        $query->where('company_name', 'like', '%' . $search . '%');
+                    });
             });
         })->when($min_salary, function ($query, $min_salary) {
             $query->where('salary', '>=', $min_salary);

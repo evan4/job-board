@@ -22,7 +22,7 @@ class JobsListController extends Controller
             'experience' => $request->input('experience'),
             'category' => $request->input('category'),
         ];
-        $jobs = JobsList::query()->filter($filters);
+        $jobs = JobsList::with('employer')->filter($filters);
 
         return view('job.index', ['jobs' => $jobs->get()]);
     }
@@ -48,7 +48,7 @@ class JobsListController extends Controller
      */
     public function show(JobsList $job)
     {
-        return  view('job.show', ['job' => $job]);
+        return  view('job.show', ['job' => $job->load('employer')]);
     }
 
     /**
