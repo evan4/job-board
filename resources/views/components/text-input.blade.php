@@ -11,5 +11,5 @@
     <input type="{{ $type }}" x-ref="input-{{ $name }}"
         class="w-full rounded-md border-0 px-2.5 pr-7 py-1.5 text-sm ring-1 ring-slate-300 placeholder:text-slate-400
     focus:right-2"
-        placeholder="{{ $placeholder }}" name="{{ $name }}" value="{{ $value }}">
+        placeholder="{{ $placeholder }}" name="{{ $name }}" id="{{ $name }}" value="{{ $value }}" autocomplete="off">
 </div>
